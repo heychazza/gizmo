@@ -110,9 +110,11 @@ public class PlayerScreening implements Listener {
 
                         InventoryView screen = e.getPlayer().openInventory(plugin.getServer().createInventory(null, 54, screenTitle()));
 
-                        if (pullScreensConfig("Items") != null) {
-                            for (String key : Objects.requireNonNull(plugin.getScreensConfig().getConfigurationSection("Items")).getKeys(false)) {
-                                ConfigurationSection keySection = Objects.requireNonNull(plugin.getScreensConfig().getConfigurationSection("Items")).getConfigurationSection(key);
+                    ConfigurationSection items = plugin.getScreensConfig().getConfigurationSection("Items");
+
+                    if (items != null && pullScreensConfig("Items") != null) {
+                            for (String key : Objects.requireNonNull(items).getKeys(false)) {
+                                ConfigurationSection keySection = Objects.requireNonNull(items).getConfigurationSection(key);
                                 assert keySection != null;
                                 int slot = keySection.getInt("slot");
                                 ItemStack item = new ItemStack(Objects.requireNonNull(Material.matchMaterial(Objects.requireNonNull(keySection.getString("material")))));

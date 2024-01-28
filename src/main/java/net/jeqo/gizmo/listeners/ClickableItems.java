@@ -4,6 +4,7 @@ import net.jeqo.gizmo.Gizmo;
 import net.jeqo.gizmo.data.Placeholders;
 import net.jeqo.gizmo.data.Utilities;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,7 +30,13 @@ public class ClickableItems implements Listener {
             ItemStack clickedItem = e.getCurrentItem();
             int rawSlot = e.getRawSlot();
 
-            for (String key : plugin.getScreensConfig().getConfigurationSection("Items").getKeys(false)) {
+            ConfigurationSection items = plugin.getScreensConfig().getConfigurationSection("Items");
+
+            if(items == null) {
+                return;
+            }
+
+            for (String key : items.getKeys(false)) {
                 if (plugin.getScreensConfig().getInt("Items." + key + ".slot") == rawSlot) {
                     if (plugin.getScreensConfig().getString("Items." + key + ".commands") != null) {
                         if (plugin.getScreensConfig().getString("Items." + key + ".close-on-click").equals("true")) {
